@@ -53,7 +53,7 @@ class SemanticAmendmentCompiler(gl.contract.Contract):
         if not co_signer or not nonce:
             raise gl.vm.UserError("missing actor or nonce")
         self.proposer = str(gl.message.sender_address)
-        self.co_signer = co_signer
+        self.co_signer = str(co_signer)
         self.draft = draft
         self.nonce = nonce
         self.state = "DRAFT"
