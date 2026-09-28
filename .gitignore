@@ -3,3 +3,4 @@ docs/preflight/
 dist/
 node_modules/
 
+.vercel
