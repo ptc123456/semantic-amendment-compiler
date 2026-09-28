@@ -14,7 +14,8 @@ def test_authority_and_fail_closed_guards_present():
     assert "gl.message.sender_address" in TEXT
     assert "state != \"FROZEN\"" in TEXT
     assert "state != \"UNRESOLVED\"" in TEXT
-    assert "attempts >= 3" in TEXT
+    assert "MAX_ATTEMPTS = 3" in TEXT
+    assert "self.attempts >= MAX_ATTEMPTS" in TEXT
     assert "gl.vm.run_nondet_unsafe" in TEXT
     assert "isinstance(leader_result, gl.vm.Return)" in TEXT
 
