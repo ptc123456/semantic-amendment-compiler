@@ -24,4 +24,7 @@ genv GENVM_VERSION=v0.6.0-rc5 genvm-lint validate contract.py
 npm run build
 ```
 
+The public Vercel deployment is available at
+https://semantic-amendment-compiler-build.vercel.app
+
 The exact local GenVM bundle, source hashes and pre-deployment evidence are retained outside the public tree. No private keys, keystores, internal prompts or transaction evidence are included in this repository.
