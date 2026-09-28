@@ -52,8 +52,11 @@ class SemanticAmendmentCompiler(gl.contract.Contract):
             raise gl.vm.UserError("draft bounds")
         if not co_signer or not nonce:
             raise gl.vm.UserError("missing actor or nonce")
-        self.proposer = str(gl.message.sender_address)
-        self.co_signer = str(co_signer)
+        # Studio Next may expose address arguments as Address objects and
+        # sender addresses with different casing. Store one canonical form so
+        # authorization remains stable across serialization boundaries.
+        self.proposer = str(gl.message.sender_address).lower()
+        self.co_signer = str(co_signer).lower()
         self.draft = draft
         self.nonce = nonce
         self.state = "DRAFT"
@@ -64,7 +67,7 @@ class SemanticAmendmentCompiler(gl.contract.Contract):
     def counter(self, text: str) -> None:
         if self.state != "DRAFT":
             raise gl.vm.UserError("wrong state")
-        if str(gl.message.sender_address) != self.co_signer:
+        if str(gl.message.sender_address).lower() != self.co_signer:
             raise gl.vm.UserError("unauthorized")
         if not text or len(text.encode("utf-8")) > MAX_TEXT:
             raise gl.vm.UserError("counter bounds")
@@ -77,7 +80,7 @@ class SemanticAmendmentCompiler(gl.contract.Contract):
     def freeze(self) -> None:
         if self.state not in ("DRAFT", "COUNTERED"):
             raise gl.vm.UserError("wrong state")
-        if str(gl.message.sender_address) != self.proposer:
+        if str(gl.message.sender_address).lower() != self.proposer:
             raise gl.vm.UserError("unauthorized")
         self.state = "FROZEN"
         self.revision += 1
